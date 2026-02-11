@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Valentine?</title>
+  <style>
+    :root{
+      --pink1:#ff4fa3;
+      --pink2:#ff77ba;
+      --pink3:#ffd1e7;
+      --bg1:#fff0f7;
+      --bg2:#ffd9ec;
+      --card:#ffffffcc;
+      --shadow: 0 18px 45px rgba(255, 79, 163, 0.25);
+    }
+
+    *{ box-sizing:border-box; }
+    html, body { height: 100%; }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(1200px 700px at 30% 20%, var(--bg2), transparent 60%),
+        radial-gradient(900px 700px at 70% 80%, var(--bg2), transparent 60%),
+        linear-gradient(135deg, var(--bg1), #ffeaf4);
+      overflow:hidden;
+    }
+
+    /* Hearts border overlay */
+    .hearts-frame{
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.9;
+      filter: drop-shadow(0 6px 10px rgba(255, 79, 163, 0.20));
+      background:
+        /* top */
+        repeating-linear-gradient(90deg, transparent 0 22px, rgba(255,79,163,.0) 22px 36px),
+        /* bottom */
+        repeating-linear-gradient(90deg, transparent 0 22px, rgba(255,79,163,.0) 22px 36px);
+    }
+    .hearts-frame::before,
+    .hearts-frame::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        /* top hearts */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='42' height='42' viewBox='0 0 42 42'%3E%3Cpath d='M21 35s-12-7.6-16.6-14.3C.8 14.9 3.3 8.8 9.2 8.2c3-.3 5.4 1.3 6.8 3.2 1.4-1.9 3.8-3.5 6.8-3.2 5.9.6 8.4 6.7 4.8 12.5C33 27.4 21 35 21 35z' fill='%23ff4fa3' fill-opacity='.85'/%3E%3C/svg%3E")
+        top left / 42px 42px repeat-x;
+      mask:
+        linear-gradient(#000 0 0) top / 100% 60px no-repeat,
+        linear-gradient(#000 0 0) bottom / 100% 60px no-repeat,
+        linear-gradient(#000 0 0) left / 60px 100% no-repeat,
+        linear-gradient(#000 0 0) right / 60px 100% no-repeat;
+      -webkit-mask:
+        linear-gradient(#000 0 0) top / 100% 60px no-repeat,
+        linear-gradient(#000 0 0) bottom / 100% 60px no-repeat,
+        linear-gradient(#000 0 0) left / 60px 100% no-repeat,
+        linear-gradient(#000 0 0) right / 60px 100% no-repeat;
+      opacity: 0.9;
+    }
+    /* left/right hearts */
+    .hearts-frame::after{
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='42' height='42' viewBox='0 0 42 42'%3E%3Cpath d='M21 35s-12-7.6-16.6-14.3C.8 14.9 3.3 8.8 9.2 8.2c3-.3 5.4 1.3 6.8 3.2 1.4-1.9 3.8-3.5 6.8-3.2 5.9.6 8.4 6.7 4.8 12.5C33 27.4 21 35 21 35z' fill='%23ff77ba' fill-opacity='.85'/%3E%3C/svg%3E")
+        left top / 42px 42px repeat-y;
+      mask:
+        linear-gradient(#000 0 0) top / 100% 60px no-repeat,
+        linear-gradient(#000 0 0) bottom / 100% 60px no-repeat,
+        linear-gradient(#000 0 0) left / 60px 100% no-repeat,
+        linear-gradient(#000 0 0) right / 60px 100% no-repeat;
+      -webkit-mask:
+        linear-gradient(#000 0 0) top / 100% 60px no-repeat,
+        linear-gradient(#000 0 0) bottom / 100% 60px no-repeat,
+        linear-gradient(#000 0 0) left / 60px 100% no-repeat,
+        linear-gradient(#000 0 0) right / 60px 100% no-repeat;
+      opacity: 0.85;
+    }
+
+    /* Floating hearts in background */
+    .float-heart{
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      opacity: 0.5;
+      animation: drift 10s linear infinite;
+    }
+    @keyframes drift{
+      from { transform: translateY(110vh) translateX(0) rotate(0deg); }
+      to   { transform: translateY(-20vh) translateX(40px) rotate(360deg); }
+    }
+
+    .wrap{
+      height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 24px;
+    }
+
+    .card{
+      width:min(720px, 92vw);
+      background: var(--card);
+      border: 2px solid rgba(255, 79, 163, 0.25);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      padding: 34px 26px 28px;
+      text-align:center;
+      backdrop-filter: blur(8px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-80px;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,79,163,.22), transparent 35%),
+        radial-gradient(circle at 80% 70%, rgba(255,119,186,.25), transparent 40%);
+      transform: rotate(8deg);
+    }
+
+    h1{
+      position: relative;
+      margin: 0 0 18px;
+      font-size: clamp(34px, 5vw, 54px);
+      line-height: 1.05;
+      color: #ff2a8a;
+      text-shadow: 0 8px 22px rgba(255, 79, 163, 0.25);
+    }
+
+    .sub{
+      position: relative;
+      margin: 0 0 26px;
+      color: #a3004a;
+      font-size: 16px;
+      opacity: 0.9;
+    }
+
+    .btn-row{
+      position: relative;
+      display:flex;
+      gap: 18px;
+      align-items:center;
+      justify-content:center;
+      min-height: 120px; /* helps when No jumps around */
+    }
+
+    a, button{
+      font: inherit;
+      border: none;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Huge YES button */
+    .yes{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      text-decoration:none;
+      padding: 22px 44px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: clamp(26px, 3.6vw, 40px);
+      letter-spacing: 0.5px;
+      color: white;
+      background: linear-gradient(135deg, var(--pink1), var(--pink2));
+      box-shadow:
+        0 18px 35px rgba(255, 79, 163, 0.35),
+        inset 0 0 0 2px rgba(255,255,255,0.35);
+      transform: translateZ(0);
+      transition: transform .12s ease;
+    }
+    .yes:hover{ transform: scale(1.03); }
+    .yes:active{ transform: scale(0.99); }
+
+    /* Tiny NO button that moves */
+    .no{
+      position: fixed; /* move anywhere on screen */
+      left: 50%;
+      top: calc(50% + 70px);
+      transform: translate(-50%, -50%);
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #7a0036;
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(255, 79, 163, 0.35);
+      box-shadow: 0 8px 18px rgba(255, 79, 163, 0.18);
+    }
+
+    .footer{
+      position: relative;
+      margin-top: 18px;
+      font-size: 13px;
+      color: rgba(122, 0, 54, 0.75);
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .float-heart{ display:none; }
+      .yes{ transition:none; }
+      .no{ transition:none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="hearts-frame" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <main class="card">
+      <h1>Will You Be my Valentine?</h1>
+      <p class="sub">Choose wisely 😌💗</p>
+
+      <div class="btn-row">
+        <a class="yes" href="yes.html">Yes</a>
+      </div>
+
+      <p class="footer">(*No is… available… technically.)</p>
+    </main>
+  </div>
+
+  <button class="no" id="noBtn" type="button">no</button>
+
+  <script>
+    // Add some floating background hearts
+    (function spawnHearts(){
+      const heartSVG = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M12 21s-7-4.4-9.7-8.3C.2 9.1 1.7 5.6 5.2 5.2c1.8-.2 3.3.8 4.1 1.9.8-1.1 2.3-2.1 4.1-1.9 3.5.4 5 3.9 2.9 7.5C19 16.6 12 21 12 21z' fill='%23ff4fa3' fill-opacity='.75'/%3E%3C/svg%3E";
+      const count = 18;
+      for(let i=0;i<count;i++){
+        const d = document.createElement("div");
+        d.className = "float-heart";
+        d.style.left = Math.random()*100 + "vw";
+        d.style.animationDuration = (8 + Math.random()*10) + "s";
+        d.style.animationDelay = (-Math.random()*10) + "s";
+        d.style.opacity = (0.25 + Math.random()*0.45).toFixed(2);
+        d.style.transform = `translateY(${110 + Math.random()*20}vh)`;
+        d.style.background = `url("${heartSVG}") center/contain no-repeat`;
+        d.style.width = (12 + Math.random()*18) + "px";
+        d.style.height = d.style.width;
+        document.body.appendChild(d);
+      }
+    })();
+
+    const noBtn = document.getElementById("noBtn");
+
+    function moveNoButton(){
+      const padding = 16; // keep it on-screen with a margin
+      const rect = noBtn.getBoundingClientRect();
+
+      const maxX = window.innerWidth - rect.width - padding;
+      const maxY = window.innerHeight - rect.height - padding;
+
+      const x = Math.max(padding, Math.floor(Math.random() * maxX));
+      const y = Math.max(padding, Math.floor(Math.random() * maxY));
+
+      noBtn.style.left = x + "px";
+      noBtn.style.top  = y + "px";
+      noBtn.style.transform = "none";
+    }
+
+    // Make it dodge clicks/taps
+    noBtn.addEventListener("click", moveNoButton);
+    noBtn.addEventListener("mouseenter", moveNoButton);
+    noBtn.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      moveNoButton();
+    }, { passive: false });
+
+    // Keep it from going off-screen on resize
+    window.addEventListener("resize", () => {
+      moveNoButton();
+    });
+  </script>
+</body>
+</html>
